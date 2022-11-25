@@ -6,7 +6,7 @@ Note:
 The CIDR notation is fix in A and B class networks
 you have to enter 254 devices.
 
-In C class network de CIDR is correct with devices between 1 and 254. It takes in account the base address and the broadcast address thats why only 254 devoces are permited.
+In C class network de CIDR is correct with devices between 1 and 254. It takes in account the base address and the broadcast address thats why only 254 devices are permited.
 
 ToDo:
 
