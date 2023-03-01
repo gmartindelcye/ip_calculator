@@ -11,3 +11,10 @@ In C class network de CIDR is correct with devices between 1 and 254. It takes i
 ToDo:
 
 CIDR work for A and B classes.
+Learn that CIDR eliminates the classes!
+-----------------------------------------------------------------
+
+# ip_cidr.py
+Asks for the net IP, the CIDR.
+Asks for how many subnets.
+Return the subnets, with network, usable ip, and broadcast
