@@ -182,7 +182,7 @@ class GenericIP:
 def main():
     a = GenericIP('192.168.0.101', cidr='/24')
     a.calculate_values()
-    j = a.json()
+    j = a.info()
     print(j)
  
 if __name__ == '__main__':
