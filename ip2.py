@@ -1,6 +1,6 @@
-from ip_utilities import GenericIP, netmask2cidr, validate_cidr, validate_ip 
+import ipaddress
+from ip_utilities import cidr2netmask,netmask2cidr, validate_cidr, validate_ip 
 from network_base_address import get_network_info, d2str
-
 
 def parse_ip_or_net(s: str):
     if '/' in s:
@@ -15,9 +15,15 @@ def parse_ip_or_net(s: str):
         ip = ''
         cidr = ''
         tipe = ''
-
     
     return ip, cidr, tipe
+
+
+def get_network_and_broadcast(ip, netmask):
+    # Create IPv4Network object from IP address and netmask
+    network = ipaddress.IPv4Network(f"{ip}/{netmask}", strict=False)
+    # Return network and broadcast addresses as strings
+    return str(network.network_address), str(network.broadcast_address)
 
 
 def ask_ip():
@@ -26,12 +32,13 @@ def ask_ip():
     if not t:
         return('Error: datos inválidos.')
     if t == 'm':
-        c = netmask2cidr(x)
+        netmask = netmask2cidr(x)
     else:
-        c = x
-    a = GenericIP(ip,cidr=c)
-    a.calculate_values()
-    print('\n',a.info(),'\n')
+        cidr = x
+        netmask = cidr2netmask(cidr)
+    network, broadcast = get_network_and_broadcast(ip, netmask)
+    s = f"ip:{ip} network:{network} cidr:{cidr} netmask:{netmask} broadcast:{broadcast}"
+    print('\n',s,'\n')
 
 
 def ask_net():
@@ -40,27 +47,24 @@ def ask_net():
     print('\n',d2str(datos),'\n')
 
 
-def ask_ip2oct():
-    respuesta = input('numero decimal entero: ')
-    x = bin(int(respuesta))[2:]
-    print(x.zfill(8))
-
-
 def main():
     while True:
-        respuesta = int(input('1. ip\n2. red\n3. n2oct\n0. salir: '))
-        if respuesta not in [0, 1, 2, 3]:
+        respuesta = int(input('1. ip\n2. red\n0. salir: '))
+        if respuesta not in [0, 1, 2]:
             continue
         if not respuesta:
             exit(0)
         if respuesta == 1:
             ask_ip()
-        elif respuesta == 2:
-            ask_net()
         else:
-            ask_ip2oct()
-
+            ask_net()
 
 if __name__ == '__main__':
     main()
-   
+
+# Example usage
+# ip = "192.168.0.100"
+# netmask = "255.255.255.0"
+# network, broadcast = get_network_and_broadcast(ip, netmask)
+# print(f"Network IP: {network}")
+# print(f"Broadcast IP: {broadcast}")

@@ -53,6 +53,7 @@ def ip2bin(i:str) -> str:
     b = ''
     for n in octets:
         x = bin(int(n))[2:]
+        l= len(x)
         b += x.zfill(8)
     return b
 
